@@ -1,0 +1,25 @@
+name: Test GIT Actions workflow
+
+on:
+  schedule:
+    # This example runs every day at 2:30 AM UTC
+    - cron: '35 6 * * 1-5'
+    
+  workflow_dispatch:  # To manually trigger the workflow if needed
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'  # Adjust this as needed
+          distribution: 'temurin'  # Use Temurin, the supported distribution
+
+      - name: Run mvn test
+        run: mvn test
