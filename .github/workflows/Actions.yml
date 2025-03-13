@@ -20,6 +20,25 @@ jobs:
         with:
           java-version: '17'  # Adjust this as needed
           distribution: 'temurin'  # Use Temurin, the supported distribution
+          
+      - name: Install Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo dpkg -i google-chrome-stable_current_amd64.deb
+          sudo apt-get -y --fix-broken install
 
+      - name: Install ChromeDriver (matching installed Chrome version)
+        run: |
+          CHROME_VERSION=$(google-chrome --version | grep -oP '[0-9]+\.[0-9]+\.[0-9]+')
+          DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | \
+                     jq -r --arg ver "$CHROME_VERSION" '.channels.Stable.versions[] | select(.version | startswith($ver)) | .downloads.chromedriver[] | select(.platform == "linux64") | .url')
+
+          wget "$DRIVER_VERSION" -O chromedriver-linux64.zip
+          unzip chromedriver-linux64.zip
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
+    
       - name: Run mvn test
         run: mvn test
