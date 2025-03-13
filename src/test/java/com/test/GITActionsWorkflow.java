@@ -12,8 +12,8 @@ public class GITActionsWorkflow {
 	@Test
 	public void sampleTest() {
 		// Set ChromeDriver path
-        //System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
-        System.setProperty("webdriver.chrome.driver", "/Users/ramkumars/eclipse-workspace/GITActions/src/test/java/ChromeDriver/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+        //System.setProperty("webdriver.chrome.driver", "/Users/ramkumars/eclipse-workspace/GITActions/src/test/java/ChromeDriver/chromedriver");
         // Set ChromeOptions for headless mode
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");  // Run Chrome in headless mode
